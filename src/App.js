@@ -1,21 +1,29 @@
-import React from 'react';
+import React, { useState } from "react";
 
-import { Chart, Series } from 'devextreme-react/chart';
-import { dataSource } from './data.js';
+import FilterComponent from "./filter-component";
+import ChartComponent from "./chart-component";
 
-class App extends React.Component {
-  render() {
-    return (
-      <Chart id="chart" dataSource={dataSource}>
-        <Series
-          valueField="oranges"
-          argumentField="day"
-          name="My oranges"
-          type="bar"
-          color="#ffaa66" />
-      </Chart>
-    );
-  }
+function App() {
+  const [statusFilters, setStatusFilters] = useState([]);
+  const [typeFilters, setTypeFilters] = useState([]);
+  const [priorityFilters, setPriorityFilters] = useState([]);
+
+  const onFilterChange = (statuses, types, priorities) => {
+    setStatusFilters(statuses);
+    setTypeFilters(types);
+    setPriorityFilters(priorities);
+  };
+  return (
+    <>
+      <FilterComponent onFilterChange={onFilterChange}></FilterComponent>
+
+      <ChartComponent
+        statuses={statusFilters}
+        types={typeFilters}
+        priorities={priorityFilters}
+      ></ChartComponent>
+    </>
+  );
 }
 
 export default App;
